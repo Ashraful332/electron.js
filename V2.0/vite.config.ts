@@ -7,5 +7,9 @@ export default defineConfig({
   base:'./',
   build:{
     outDir:'out',
+  },
+  server:{
+    port:5123,
+    strictPort:true,
   }
 })
