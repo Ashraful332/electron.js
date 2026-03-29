@@ -71,3 +71,19 @@ export default defineConfig([
   },
 ])
 ```
+
+- start project ad website 
+npm run dev:react
+
+- start project as app
+npm run dev:electron
+
+
+- install electron builder
+npm i --save-dev electron-builder
+
+- build electron app on dist-electron
+npm run transpile:electron
+
+- build AppImage app foe linux
+npm run dist:linux
