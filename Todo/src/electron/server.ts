@@ -10,7 +10,7 @@ export const startServer = async () => {
   app.use(express.json());
 
   // GET সব todo
-  app.get("/todos", async (req, res) => {
+  app.get("/todos", async (_, res) => {
     const todos = await db.all("SELECT * FROM todos");
     res.json(todos);
   });
