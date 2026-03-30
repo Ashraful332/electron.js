@@ -1,73 +1,108 @@
-# React + TypeScript + Vite
+# React + TypeScript + Electron
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Start 
+npm i --save-dev electron npm-run-all cross-env electron-builder
 
-Currently, two official plugins are available:
+## Next
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- create a app dir and 
+--app\
+--| main.ts
+--| util.ts
+--| tsconfig.json
 
-## React Compiler
+- add tsconfig.json in app file
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```json
+{
+    "compilerOptions": {
+        "strict": true,
+        "target": "ESNext",
+        "module": "NodeNext",
+        "outDir": "../../dist-electron",
+        "skipLibCheck": true
+    }
+}
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- update vite.config.ts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```ts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  base:'./',
+  build:{
+    outDir:'out',
   },
-])
+  server:{
+    port:5123,
+    strictPort:true,
+  }
+})
 ```
+- add electron-builder.json
+
+```json
+{
+    "appId":"com.n-ziermann.electron-course",
+    "files":["dist-electron","out"],
+    "icon":"./favicon.svg",
+    "mac":{
+        "target":"dmg"
+    },
+    "linux":{
+        "target":"AppImage",
+        "category":"Utility"
+    },
+    "win":{
+        "target":["portable","msi"]
+    }
+}
+```
+
+- update main package.json
+
+```json
+
+  "name": "todo",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "dist-electron/main.js",
+  "scripts": {
+    "dev":"npm-run-all --parallel dev:react dev:electron",
+    "dev:react": "vite",
+    "dev:electron": "npm run transpile:electron; Node_ENV=development electron .",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "transpile:electron": "tsc --project src/electron/tsconfig.json",
+    "dist:mac": "npm run transpile:electron && npm run build && electron-builder --mac --arm64",
+    "dist:win": "npm run transpile:electron && npm run build && electron-builder --win --x64",
+    "dist:linux": "npm run transpile:electron && npm run build && electron-builder --linux --x64"
+  },
+```
+## Imported command    
+
+- start project ad website 
+npm run dev:react
+
+- start project as app
+npm run dev:electron
+
+
+- install electron builder
+npm i --save-dev electron-builder
+
+- build electron app on dist-electron
+npm run transpile:electron
+
+- build AppImage app foe linux
+npm run dist:linux
+
+- start full project 
+npm run build
