@@ -5,7 +5,7 @@ npm i --save-dev electron npm-run-all cross-env electron-builder
 
 ## Next
 
-create a app dir and 
+create a app file
 
 ```linux
 --app\
@@ -79,7 +79,7 @@ update main package.json
   "scripts": {
     "dev":"npm-run-all --parallel dev:react dev:electron",
     "dev:react": "vite",
-    "dev:electron": "npm run transpile:electron; Node_ENV=development electron .",
+    "dev:electron": "npm run transpile:electron && cross-env NODE_ENV=development electron .",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -110,4 +110,11 @@ npm run dist:linux
 
 - start full project 
 npm run build
+```
+
+## run linux appImage
+
+```bash
+chmod +x my_app.AppImage
+./my_app.AppImage --no-sandbox
 ```
