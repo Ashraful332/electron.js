@@ -5,7 +5,7 @@ npm i --save-dev electron npm-run-all cross-env electron-builder
 
 ## Next
 
-- create a app dir and 
+create a app dir and 
 
 ```linux
 --app\
@@ -14,7 +14,7 @@ npm i --save-dev electron npm-run-all cross-env electron-builder
 --| tsconfig.json
 ```
 
-- add tsconfig.json in app file
+ add tsconfig.json in app file
 
 ```json
 {
@@ -28,7 +28,7 @@ npm i --save-dev electron npm-run-all cross-env electron-builder
 }
 ```
 
-- update vite.config.ts
+ update vite.config.ts
 
 ```ts
 import { defineConfig } from 'vite'
@@ -47,7 +47,7 @@ export default defineConfig({
   }
 })
 ```
-- add electron-builder.json
+ add electron-builder.json
 
 ```json
 {
@@ -67,7 +67,7 @@ export default defineConfig({
 }
 ```
 
-- update main package.json
+update main package.json
 
 ```json
 
@@ -91,12 +91,13 @@ export default defineConfig({
 ```
 ## Imported command    
 
+```bash
+
 - start project ad website 
 npm run dev:react
 
 - start project as app
 npm run dev:electron
-
 
 - install electron builder
 npm i --save-dev electron-builder
@@ -109,3 +110,4 @@ npm run dist:linux
 
 - start full project 
 npm run build
+```
