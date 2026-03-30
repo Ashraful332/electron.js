@@ -6,10 +6,13 @@ npm i --save-dev electron npm-run-all cross-env electron-builder
 ## Next
 
 - create a app dir and 
+
+```linux
 --app\
 --| main.ts
 --| util.ts
 --| tsconfig.json
+```
 
 - add tsconfig.json in app file
 
